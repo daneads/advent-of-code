@@ -28,7 +28,10 @@ day1Part1 xs = let
 
 convertDigitStringsToInts :: String -> String
 convertDigitStringsToInts s = let
-    stringsToDigits = [("one", "1"), ("two", "2"), ("three", "3"), ("four", "4"), ("five", "5"), ("six", "6"), ("seven", "7"), ("eight", "8"), ("nine", "9")]
+    -- Some first/last chars are shared.
+    -- E.g. "xtwone3four" -> x2134
+    -- The below works around that problem by substituting first/last chars in addition to the digit
+    stringsToDigits = [("one", "o1e"), ("two", "t2o"), ("three", "t3e"), ("four", "f4r"), ("five", "f5e"), ("six", "s6x"), ("seven", "s7n"), ("eight", "e8t"), ("nine", "n9e")]
     packedS = T.pack s
     runReplace (x, y) = T.replace x y
     replaced = foldl' (flip runReplace) packedS stringsToDigits
@@ -41,4 +44,4 @@ day1Part2 xs = let
         show $ sum allVals
 
 solutions :: [Solution]
-solutions = [Solution 2023 1 1 day1Part1, Solution 2023 1 1 day1Part2]
+solutions = [Solution 2023 1 1 day1Part1, Solution 2023 1 2 day1Part2]
