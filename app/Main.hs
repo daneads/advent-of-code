@@ -8,18 +8,18 @@ import Text.Layout.Table
 allSolutions :: [Solution]
 allSolutions = Y2023.solutions ++ Y2024.solutions
 
-getSolutionsTable :: [Solution] -> IO String
-getSolutionsTable solutions = do
-  solutionStrs <- traverse runSolution allSolutions
+getSolutionsTable :: [Solution] -> [String] -> String
+getSolutionsTable solutions solutionStrs =
   let zippedSolutions = zip solutions solutionStrs
-  let cs = replicate 4 $ column expand left noAlign ellipsisCutMark
-  let h = titlesH ["Year", "Day", "Part", "Solution"]
-  let getSolutionRows (a, b) = rowG [show $ solutionYear a, show $ solutionDay a, show $ solutionPart a, b]
-  let dataRows = fmap getSolutionRows zippedSolutions
-  let t = columnHeaderTableS cs unicodeS h dataRows
-  pure $ tableString t
+      cs = replicate 4 $ column expand left noAlign ellipsisCutMark
+      h = titlesH ["Year", "Day", "Part", "Solution"]
+      getSolutionRows (a, b) = rowG [show $ solutionYear a, show $ solutionDay a, show $ solutionPart a, b]
+      dataRows = fmap getSolutionRows zippedSolutions
+      t = columnHeaderTableS cs unicodeS h dataRows
+   in tableString t
 
 main :: IO ()
 main = do
-  t <- getSolutionsTable allSolutions
+  solutionStrs <- traverse runSolution allSolutions
+  let t = getSolutionsTable allSolutions solutionStrs
   putStrLn t
