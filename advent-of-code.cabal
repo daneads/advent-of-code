@@ -47,6 +47,7 @@ executable advent-of-code-exe
         advent-of-code
         , base >=4.7 && <5
         , filepath
+        , table-layout
 
 test-suite advent-of-code-test
     import: shared-properties

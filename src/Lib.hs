@@ -1,5 +1,5 @@
 module Lib
-    ( Solution(Solution, solutionYear, solutionDay, solutionFunc), runSolution
+    ( Solution(Solution, solutionYear, solutionDay, solutionPart, solutionFunc), runSolution
     ) where
 
 import System.FilePath ( (<.>), (</>) )
@@ -24,7 +24,6 @@ runSolution :: Solution -> IO String
 runSolution s = do
     let year = solutionYear s
     let day = solutionDay s
-    let part = solutionPart s
     fileData <- getFileData year day
     let solution = solutionFunc s fileData
-    pure $ "Year " ++ show year ++ " Day " ++ show day ++ " Part " ++ show part ++ ": " ++ solution
+    pure solution
