@@ -1,7 +1,8 @@
-module Solutions.Year2024 (solutions, day1Part1, day1Part2, day2Part1, day2Part2, getPermutationslessOne) where
+module Solutions.Year2024 (solutions, day1Part1, day1Part2, day2Part1, day2Part2, day3Part1, getPermutationslessOne) where
 
-import Data.List (sort)
+import Data.List (intercalate, sort)
 import Lib
+import Text.Regex.TDFA ((=~))
 
 getInts :: String -> [Int]
 getInts line = (read <$> words line) :: [Int]
@@ -52,10 +53,23 @@ reportIsSafe' xs =
 day2Part2 :: [String] -> String
 day2Part2 xs = show . length $ filter (reportIsSafe' . getInts) xs
 
+findAllMul :: String -> [(Int, Int)]
+findAllMul input =
+  let regex = "mul\\(([0-9]+),([0-9]+)\\)" :: String
+      matches = input =~ regex :: [[String]]
+   in map (\[_whole, x, y] -> (read x, read y)) matches
+
+day3Part1 :: [String] -> String
+day3Part1 xs =
+  let fullString = intercalate "" xs
+      allMatches = findAllMul fullString
+   in show . sum $ fmap (uncurry (*)) allMatches
+
 solutions :: [Solution]
 solutions =
   [ Solution 2024 1 1 day1Part1,
     Solution 2024 1 2 day1Part2,
     Solution 2024 2 1 day2Part1,
-    Solution 2024 2 2 day2Part2
+    Solution 2024 2 2 day2Part2,
+    Solution 2024 3 1 day3Part1
   ]

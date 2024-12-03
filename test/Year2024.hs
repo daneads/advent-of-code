@@ -26,5 +26,11 @@ testsDayTwo =
       testGetAllPermutations = TestCase (assertEqual "Day 2 Part 2 getAllPermutations" [[2, 3, 4], [1, 3, 4], [1, 2, 4], [1, 2, 3]] $ getPermutationslessOne [1, 2, 3, 4])
    in TestList [testPart1Sample, testPart2Sample, testGetAllPermutations]
 
+testsDayThree :: Test
+testsDayThree =
+  let part1Solution = day3Part1 ["xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"]
+      testPart1Sample = TestCase (assertEqual "Day 3 Part 1 Sample" "161" part1Solution)
+   in TestList [testPart1Sample]
+
 tests2024 :: Test
-tests2024 = TestList [testsDayOne, testsDayTwo]
+tests2024 = TestList [testsDayOne, testsDayTwo, testsDayThree]
