@@ -57,7 +57,7 @@ findAllMul :: String -> [(Int, Int)]
 findAllMul input =
   let regex = "mul\\(([0-9]+),([0-9]+)\\)" :: String
       matches = input =~ regex :: [[String]]
-   in map (\[_whole, x, y] -> (read x, read y)) matches
+   in fmap (\[_whole, x, y] -> (read x, read y)) matches
 
 day3Part1 :: [String] -> String
 day3Part1 xs =
