@@ -1,5 +1,6 @@
 module Main (main) where
 
+import Control.Concurrent.Async (mapConcurrently)
 import Lib (Solution (solutionDay, solutionPart, solutionYear), runSolution)
 import qualified Solutions.Year2023 as Y2023 (solutions)
 import qualified Solutions.Year2024 as Y2024 (solutions)
@@ -20,6 +21,6 @@ getSolutionsTable solutions solutionStrs =
 
 main :: IO ()
 main = do
-  solutionStrs <- traverse runSolution allSolutions
+  solutionStrs <- mapConcurrently runSolution allSolutions
   let t = getSolutionsTable allSolutions solutionStrs
   putStrLn t
