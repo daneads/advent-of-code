@@ -47,7 +47,6 @@ executable advent-of-code-exe
     build-depends:
         advent-of-code
         , base >=4.7 && <5
-        , filepath
         , table-layout
         , async
 
@@ -67,4 +66,3 @@ test-suite advent-of-code-test
         HUnit
         , advent-of-code
         , base >=4.7 && <5
-        , filepath
