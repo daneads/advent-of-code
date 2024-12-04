@@ -1,6 +1,7 @@
-module Solutions.Year2024 (solutions, day1Part1, day1Part2, day2Part1, day2Part2, day3Part1, getPermutationslessOne) where
+module Solutions.Year2024 (solutions, day1Part1, day1Part2, day2Part1, day2Part2, day3Part1, day3Part2, findAllMul', splitbyDoDont, getPermutationslessOne) where
 
 import Data.List (intercalate, sort)
+import Data.List.Split (onSublist, split)
 import Lib
 import Text.Regex.TDFA ((=~))
 
@@ -65,11 +66,33 @@ day3Part1 xs =
       allMatches = findAllMul fullString
    in show . sum $ fmap (uncurry (*)) allMatches
 
+findAllMul' :: [String] -> [(Int, Int)]
+findAllMul' input = case input of
+  [] -> []
+  _ -> case head input of
+    "don't()" ->
+      let takeAfterDont = dropWhile (/= "do()") input
+       in findAllMul' takeAfterDont
+    _ ->
+      let takeUntilDont = takeWhile (/= "don't()") input
+          takeOnAfterDont = dropWhile (/= "don't()") input
+       in findAllMul (concat takeUntilDont) ++ findAllMul' takeOnAfterDont
+
+splitbyDoDont :: String -> [String]
+splitbyDoDont s = concatMap (split (onSublist "don't()")) (split (onSublist "do()") s)
+
+day3Part2 :: [String] -> String
+day3Part2 xs =
+  let fullString = intercalate "" xs
+      allMatches = findAllMul' $ splitbyDoDont fullString
+   in show . sum $ fmap (uncurry (*)) allMatches
+
 solutions :: [Solution]
 solutions =
   [ Solution 2024 1 1 day1Part1,
     Solution 2024 1 2 day1Part2,
     Solution 2024 2 1 day2Part1,
     Solution 2024 2 2 day2Part2,
-    Solution 2024 3 1 day3Part1
+    Solution 2024 3 1 day3Part1,
+    Solution 2024 3 2 day3Part2
   ]

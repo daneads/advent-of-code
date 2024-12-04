@@ -30,7 +30,11 @@ testsDayThree :: Test
 testsDayThree =
   let part1Solution = day3Part1 ["xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"]
       testPart1Sample = TestCase (assertEqual "Day 3 Part 1 Sample" "161" part1Solution)
-   in TestList [testPart1Sample]
+      part2SampleString = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
+      testSplitbyDoDont = TestCase (assertEqual "Day 3 Part 2 splitbyDoDont" ["xmul(2,4)&mul[3,7]!^", "don't()", "_mul(5,5)+mul(32,64](mul(11,8)un", "do()", "?mul(8,5))"] $ splitbyDoDont part2SampleString)
+      testFindAllMul1 = TestCase (assertEqual "Day 3 Part 2 FindAllMul1" [(2, 4), (8, 5)] $ findAllMul' ["xmul(2,4)&mul[3,7]!^", "don't()", "_mul(5,5)+mul(32,64](mul(11,8)un", "do()", "?mul(8,5))"])
+      testPart2Sample = TestCase (assertEqual "Day 3 Part 2 Sample" "48" $ day3Part2 [part2SampleString])
+   in TestList [testPart1Sample, testFindAllMul1, testSplitbyDoDont, testPart2Sample]
 
 tests2024 :: Test
 tests2024 = TestList [testsDayOne, testsDayTwo, testsDayThree]
